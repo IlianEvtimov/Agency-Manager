@@ -126,6 +126,7 @@ begin
   if OpenDialog1.Execute then
   begin
     FPropertyImageLoader.AddImage := OpenDialog1.FileName;
+    FPropertyImageLoader.Next;
   end;
 
 end;
@@ -146,15 +147,13 @@ end;
 procedure TProperty_Update_Form.Edt_AreaKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  // Проверка дали въведеното е число, десетична запетая или клавиша Backspace
   if not CharInSet(Key, ['0'..'9', ',', #8]) then
   begin
-    Key := #0; // Отхвърли клавиша
+    Key := #0;
   end
-  // Проверка дали десетичната запетая вече съществува или се опитва да бъде първият символ
   else if (Key = ',') and ((Pos(',', TEdit(Sender).Text) > 0) or (TEdit(Sender).SelStart = 0)) then
   begin
-    Key := #0; // Отхвърли клавиша, ако вече има запетая или е първи символ
+    Key := #0;
   end;
 end;
 
@@ -175,7 +174,7 @@ procedure TProperty_Update_Form.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    ModalResult := mrCancel;  // Затваря формата със стойност mrCancel
+    ModalResult := mrCancel;
   end;
 end;
 
@@ -183,7 +182,7 @@ procedure TProperty_Update_Form.FormShow(Sender: TObject);
 begin
   //
   DisplayData;
-  Btn_Add_Image.Caption := #$1F4F7 + ' Add Photo';  // Използване на символ за камера
+  Btn_Add_Image.Caption := #$1F4F7 + ' Add Photo';
   OpenDialog1.Filter := 'Image Files|*.jpg;*.jpeg;*.png;*.bmp|JPEG Files|*.jpg;*.jpeg|PNG Files|*.png|Bitmap Files|*.bmp';
   OpenDialog1.FilterIndex := 3;
 end;
@@ -203,9 +202,8 @@ var
   LPropertyType, LAddress, LDescription: string;
   PriceValue, AreaValue: Double;
 begin
-  Result := True; // Предполагаме, че всички полета са валидни, докато не се докаже противното
+  Result := True;
 
-  // Проверка на Property Type
   LPropertyType := Trim(Edt_Propery_Type.Text);
   if LPropertyType = EmptyStr then
   begin
@@ -215,7 +213,6 @@ begin
     Exit;
   end;
 
-  // Проверка на Address
   LAddress := Trim(Edt_Address.Text);
   if LAddress = EmptyStr then
   begin
@@ -225,7 +222,6 @@ begin
     Exit;
   end;
 
-  // Проверка за валидност на Price
   if not TryStrToFloat(Edt_Price.Text, PriceValue) or (PriceValue <= 0) then
   begin
     ShowMessage('Please enter a valid Price greater than zero.');
@@ -234,7 +230,6 @@ begin
     Exit;
   end;
 
-  // Проверка за валидност на Area
   if not TryStrToFloat(Edt_Area.Text, AreaValue) or (AreaValue <= 0) then
   begin
     ShowMessage('Please enter a valid Area greater than zero.');
@@ -243,7 +238,6 @@ begin
     Exit;
   end;
 
-  // Проверка на Description
   LDescription := Trim(Memo_Description.Text);
   if LDescription = EmptyStr then
   begin

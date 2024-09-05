@@ -30,6 +30,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Btn_CancelClick(Sender: TObject);
   private
     { Private declarations }
     FProperty: TProperty;
@@ -94,6 +95,11 @@ begin
   end;
 end;
 
+procedure TCreate_Clietn_Form.Btn_CancelClick(Sender: TObject);
+begin
+  ModalResult := mrCancel;
+end;
+
 procedure TCreate_Clietn_Form.Button3Click(Sender: TObject);
 begin
   CreateClientListForm;
@@ -128,15 +134,13 @@ end;
 procedure TCreate_Clietn_Form.Edt_BudgetKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  // Проверка дали въведеното е число, десетична запетая или клавиша Backspace
   if not CharInSet(Key, ['0'..'9', ',', #8]) then
   begin
-    Key := #0; // Отхвърли клавиша
+    Key := #0;
   end
-  // Проверка дали десетичната запетая вече съществува или се опитва да бъде първият символ
   else if (Key = ',') and ((Pos(',', TEdit(Sender).Text) > 0) or (TEdit(Sender).SelStart = 0)) then
   begin
-    Key := #0; // Отхвърли клавиша, ако вече има запетая или е първи символ
+    Key := #0;
   end;
 end;
 
@@ -151,7 +155,7 @@ procedure TCreate_Clietn_Form.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    ModalResult := mrCancel;  // Затваря формата със стойност mrCancel
+    ModalResult := mrCancel;
   end;
 end;
 
@@ -164,46 +168,41 @@ function TCreate_Clietn_Form.ValidatePropertyFields: Boolean;
 var
   BudgetValue: Double;
 begin
-  Result := False;  // По подразбиране е неуспешно
+  Result := False;
 
-  // Проверка за Име на Клиента
   if Trim(Edt_ClientName.Text) = '' then
   begin
-    ShowMessage('Please enter a valid Client Name.');
+    ShowMessage('Моля, въведете валидно име на клиент.');
     Edt_ClientName.SetFocus;
     Exit;
   end;
 
-  // Проверка за Телефонен номер
   if Trim(Edt_PhoneNumber.Text) = '' then
   begin
-    ShowMessage('Please enter a valid Phone Number.');
+    ShowMessage('Моля, въведете валиден телефонен номер.');
     Edt_PhoneNumber.SetFocus;
     Exit;
   end;
 
-  // Проверка за Тип (предполага се, че трябва да бъде избран елемент)
   if Cmb_ClientType.Text = '' then
   begin
-    ShowMessage('Please select a valid Client Type.');
+    ShowMessage('Моля, изберете валиден тип клиент.');
     Cmb_ClientType.SetFocus;
     Exit;
   end;
 
-  // Проверка за валидност на Бюджет
   if not TryStrToFloat(Edt_Budget.Text, BudgetValue) or (BudgetValue <= 0) then
   begin
-    ShowMessage('Please enter a valid Budget greater than zero.');
+    ShowMessage('Моля, въведете валиден бюджет по-голям от нула.');
     Edt_Budget.SetFocus;
     Exit;
   end;
 
   if Cmb_ClientType.ItemIndex = 0 then
   begin
-    // Проверка за Собственост (Property ID)
     if Trim(Edt_PropertyID.Text) = '' then
     begin
-      ShowMessage('Please enter a valid Property ID.');
+      ShowMessage('Моля, въведете валиден идентификатор на имот.');
       Btn_Agent.SetFocus;
       Exit;
     end;
@@ -213,7 +212,6 @@ begin
     FProperty.PropertyID := 0;
   end;
 
-  // Ако всички проверки са преминали
   Result := True;
 end;
 

@@ -24,6 +24,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Btn_AddClick(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Btn_CancelClick(Sender: TObject);
   private
     { Private declarations }
 
@@ -78,6 +79,11 @@ begin
     FreeAndNil(LAgent);
   end;
 
+end;
+
+procedure TAgent_Create_Form.Btn_CancelClick(Sender: TObject);
+begin
+  ModalResult := mrCancel;
 end;
 
 procedure TAgent_Create_Form.Btn_Choose_AgencyClick(Sender: TObject);

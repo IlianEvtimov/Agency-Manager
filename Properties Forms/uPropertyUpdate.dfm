@@ -111,7 +111,7 @@ object Property_Update_Form: TProperty_Update_Form
     Caption = 'Lbl'
   end
   object Btn_Cansel: TButton
-    Left = 547
+    Left = 541
     Top = 419
     Width = 75
     Height = 25
@@ -119,43 +119,43 @@ object Property_Update_Form: TProperty_Update_Form
     Caption = #1053#1072#1079#1072#1076
     TabOrder = 0
     OnClick = Btn_CanselClick
-    ExplicitLeft = 545
+    ExplicitLeft = 539
     ExplicitTop = 416
   end
   object Btn_Create: TButton
-    Left = 466
+    Left = 438
     Top = 419
-    Width = 75
+    Width = 97
     Height = 25
     Anchors = [akRight, akBottom]
-    Caption = #1044#1086#1073#1072#1074#1080
+    Caption = #1040#1082#1090#1091#1072#1083#1080#1079#1072#1094#1080#1103
     TabOrder = 1
     OnClick = Btn_CreateClick
-    ExplicitLeft = 464
+    ExplicitLeft = 436
     ExplicitTop = 416
   end
   object Memo_Description: TMemo
     Left = 16
     Top = 273
-    Width = 618
+    Width = 612
     Height = 140
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 2
-    ExplicitWidth = 616
+    ExplicitWidth = 610
     ExplicitHeight = 137
   end
   object Edt_Agent: TEdit
     Left = 16
     Top = 222
-    Width = 310
+    Width = 304
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
     TabOrder = 3
-    ExplicitWidth = 308
+    ExplicitWidth = 302
   end
   object Btn_Agent: TButton
-    Left = 332
+    Left = 326
     Top = 221
     Width = 25
     Height = 25
@@ -163,47 +163,47 @@ object Property_Update_Form: TProperty_Update_Form
     Caption = '...'
     TabOrder = 4
     OnClick = Btn_AgentClick
-    ExplicitLeft = 330
+    ExplicitLeft = 324
     ExplicitTop = 218
   end
   object Edt_Area: TEdit
     Left = 16
     Top = 174
-    Width = 341
+    Width = 335
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 5
     OnKeyPress = Edt_AreaKeyPress
-    ExplicitWidth = 339
+    ExplicitWidth = 333
   end
   object Edt_Price: TEdit
     Left = 16
     Top = 126
-    Width = 341
+    Width = 335
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
     Text = '0'
     OnKeyPress = Edt_AreaKeyPress
-    ExplicitWidth = 339
+    ExplicitWidth = 333
   end
   object Edt_Address: TEdit
     Left = 16
     Top = 78
-    Width = 341
+    Width = 335
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 7
-    ExplicitWidth = 339
+    ExplicitWidth = 333
   end
   object Edt_Propery_Type: TEdit
     Left = 16
     Top = 30
-    Width = 341
+    Width = 335
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 8
-    ExplicitWidth = 339
+    ExplicitWidth = 333
   end
   object Btn_Back: TButton
     Left = 488

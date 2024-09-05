@@ -2,8 +2,8 @@ object Client_Update_Form: TClient_Update_Form
   Left = 0
   Top = 0
   Caption = 'Client_Update_Form'
-  ClientHeight = 292
-  ClientWidth = 337
+  ClientHeight = 289
+  ClientWidth = 335
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,8 +15,8 @@ object Client_Update_Form: TClient_Update_Form
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   DesignSize = (
-    337
-    292)
+    335
+    289)
   TextHeight = 15
   object Label3: TLabel
     Left = 16
@@ -87,7 +87,7 @@ object Client_Update_Form: TClient_Update_Form
   object Edt_PhoneNumber: TEdit
     Left = 16
     Top = 78
-    Width = 283
+    Width = 279
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
@@ -96,15 +96,15 @@ object Client_Update_Form: TClient_Update_Form
   object Edt_ClientName: TEdit
     Left = 16
     Top = 29
-    Width = 283
+    Width = 279
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
     ExplicitWidth = 281
   end
   object Btn_Add: TButton
-    Left = 143
-    Top = 258
+    Left = 139
+    Top = 255
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -112,11 +112,10 @@ object Client_Update_Form: TClient_Update_Form
     TabOrder = 2
     OnClick = Btn_AddClick
     ExplicitLeft = 141
-    ExplicitTop = 255
   end
   object Btn_Cancel: TButton
-    Left = 224
-    Top = 258
+    Left = 220
+    Top = 255
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -124,7 +123,6 @@ object Client_Update_Form: TClient_Update_Form
     TabOrder = 3
     OnClick = Btn_CancelClick
     ExplicitLeft = 222
-    ExplicitTop = 255
   end
   object Cmb_ClientType: TComboBox
     Left = 16
@@ -140,7 +138,7 @@ object Client_Update_Form: TClient_Update_Form
   object Edt_Budget: TEdit
     Left = 16
     Top = 181
-    Width = 283
+    Width = 279
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 5
@@ -149,7 +147,7 @@ object Client_Update_Form: TClient_Update_Form
   object Edt_PropertyID: TEdit
     Left = 16
     Top = 230
-    Width = 258
+    Width = 254
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
@@ -158,7 +156,7 @@ object Client_Update_Form: TClient_Update_Form
     ExplicitWidth = 256
   end
   object Btn_Agent: TButton
-    Left = 278
+    Left = 274
     Top = 230
     Width = 25
     Height = 25

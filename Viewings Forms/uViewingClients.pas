@@ -54,15 +54,12 @@ var
   ListItem: TListItem;
   LClient: TClient;
 begin
-  // Ако няма избрани елементи
   if ListView1.SelCount = 0 then
   begin
     ShowMessage('Няма избрани елементи за актуализиране.');
-    Exit;  // Добавяне на Exit тук
+    Exit;
   end;
 
-
-  // Вземи избрания елемент
   ListItem := ListView1.Selected;
 
   LClient := TClient(ListItem.Data);

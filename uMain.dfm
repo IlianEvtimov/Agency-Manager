@@ -21,6 +21,7 @@ object Main_Form: TMain_Form
     Height = 431
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 428
     object Label_Agency: TLabel
       Left = 24
       Top = 32

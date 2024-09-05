@@ -59,34 +59,34 @@ object Agent_Create_Form: TAgent_Create_Form
   object Edt_Agency: TEdit
     Left = 16
     Top = 128
-    Width = 329
+    Width = 327
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
     ReadOnly = True
     TabOrder = 2
-    ExplicitWidth = 327
+    ExplicitWidth = 325
   end
   object Edt_Phone: TEdit
     Left = 16
     Top = 79
-    Width = 329
+    Width = 327
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    ExplicitWidth = 327
+    ExplicitWidth = 325
   end
   object Edt_Agent_Name: TEdit
     Left = 16
     Top = 29
-    Width = 329
+    Width = 327
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    ExplicitWidth = 327
+    ExplicitWidth = 325
   end
   object Btn_Add: TButton
-    Left = 240
+    Left = 238
     Top = 168
     Width = 75
     Height = 25
@@ -94,19 +94,18 @@ object Agent_Create_Form: TAgent_Create_Form
     Caption = #1044#1086#1073#1072#1074#1080
     TabOrder = 4
     OnClick = Btn_AddClick
-    ExplicitLeft = 238
+    ExplicitLeft = 236
     ExplicitTop = 165
   end
   object Btn_Cancel: TButton
-    Left = 326
+    Left = 319
     Top = 168
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = #1053#1072#1079#1072#1076
     TabOrder = 5
-    ExplicitLeft = 324
-    ExplicitTop = 165
+    OnClick = Btn_CancelClick
   end
   object Button3: TButton
     Left = 15
@@ -120,7 +119,7 @@ object Agent_Create_Form: TAgent_Create_Form
     ExplicitTop = 165
   end
   object Btn_Choose_Agency: TButton
-    Left = 353
+    Left = 351
     Top = 127
     Width = 30
     Height = 25
@@ -128,6 +127,6 @@ object Agent_Create_Form: TAgent_Create_Form
     Caption = '...'
     TabOrder = 3
     OnClick = Btn_Choose_AgencyClick
-    ExplicitLeft = 351
+    ExplicitLeft = 349
   end
 end

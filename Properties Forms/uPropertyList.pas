@@ -70,36 +70,30 @@ var
   i: Integer;
   UserResponse: Integer;
 begin
-  // Ако няма избрани елементи
   if ListView1.SelCount = 0 then
   begin
     ShowMessage('Няма избрани елементи за изтриване.');
     Exit;
   end;
 
-  // Показване на диалог за потвърждение
   UserResponse := MessageDlg('Наистина ли искате да изтриете избрания запис?', mtConfirmation, [mbYes, mbNo], 0);
   if UserResponse = mrNo then
     Exit;
 
-  // Извършване на итерация отзад напред през всички елементи
   for i := ListView1.Items.Count - 1 downto 0 do
   begin
     ListItem := ListView1.Items[i];
 
-    // Проверка дали елементът е избран
     if ListItem.Selected then
     begin
-      // Освобождаване на паметта за обекта, свързан с този елемент
       LProperty := TProperty(ListItem.Data);
       if Assigned(LProperty) then
       begin
-        DeleteProperty(LProperty); // Изтриване на записа от базата данни (ако е нужно)
-        LProperty.Free;             // Освобождаване на паметта
-        ListItem.Data := nil;     // Зануляване на указателя
+        DeleteProperty(LProperty);
+        LProperty.Free;
+        ListItem.Data := nil;
       end;
 
-      // Изтриване на избрания елемент от ListView
       ListItem.Delete;
     end;
   end;
@@ -118,7 +112,7 @@ begin
   for i := 0 to ListView1.Items.Count - 1 do
   begin
     LProperty := TProperty(ListView1.Items[i].Data);
-    LProperty.Free; // Освобождаване на паметта за всеки обект
+    LProperty.Free;
   end;
 end;
 
@@ -127,7 +121,7 @@ procedure TProperty_List_Form.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    ModalResult := mrCancel;  // Затваря формата със стойност mrCancel
+    ModalResult := mrCancel;
   end;
 end;
 
@@ -145,24 +139,23 @@ var
   LProperty: TProperty;
 begin
   Result := -1;
-  // Вземи избрания елемент
+
   ListItem := ListView1.Selected;
   LProperty := TProperty(ListItem.Data);
 
   if Assigned(LProperty) then
   begin
-    // Отваря форма за актуализация и обновява обекта, ако промените са потвърдени
+
     Result := LProperty.PropertyID;
   end;
 end;
 
 procedure TProperty_List_Form.ListView1DblClick(Sender: TObject);
 begin
-  // Ако няма избрани елементи
   if ListView1.SelCount = 0 then
   begin
     ShowMessage('Няма избрани елементи за актуализиране.');
-    Exit;  // Добавяне на Exit тук
+    Exit;
   end;
 
   if FIsCalledFromClientFrom then
@@ -177,14 +170,12 @@ var
   LProperty: TProperty;
 begin
 
-  // Вземи избрания елемент
   ListItem := ListView1.Selected;
 
   LProperty := TProperty(ListItem.Data);
 
   if Assigned(LProperty) then
   begin
-    // Отваря форма за актуализация и обновява обекта, ако промените са потвърдени
     if CreateUpdateForm(LProperty) then
     begin
 
@@ -192,15 +183,13 @@ begin
       ListItem.SubItems[0] := LProperty.PropertyType;
       ListItem.SubItems[1] := LProperty.Address;
 
-      // Форматиране на Price и Area с две цифри след десетичната запетая
       ListItem.SubItems[2] := FormatFloat('0.00', LProperty.Price);
       ListItem.SubItems[3] := FormatFloat('0.00', LProperty.Area);
 
       ListItem.SubItems[4] := LProperty.Description;
       ListItem.SubItems[5] := IntToStr(LProperty.AgentID);
 
-    // Съхраняване на указателя към обекта в Data свойството
-    ListItem.Data := LProperty;
+      ListItem.Data := LProperty;
     end;
   end;
 end;

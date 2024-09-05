@@ -63,8 +63,6 @@ begin
   Client_Update_Form.Release;
 end;
 
-{ TClient_Update_Form }
-
 procedure TClient_Update_Form.Btn_AddClick(Sender: TObject);
 begin
   ModalResult := mrOk;
@@ -126,7 +124,7 @@ procedure TClient_Update_Form.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    ModalResult := mrCancel;  // Затваря формата със стойност mrCancel
+    ModalResult := mrCancel;
   end;
 end;
 

@@ -43,6 +43,7 @@ type
     procedure Btn_Add_ImageClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Btn_Delete_ImageClick(Sender: TObject);
+    procedure Btn_CanselClick(Sender: TObject);
   private
     { Private declarations }
     FAgent : TAgent;
@@ -95,16 +96,18 @@ end;
 procedure TProperty_Create_Form.Btn_BackClick(Sender: TObject);
 begin
   if FCurrentImageIndex <= 0 then
-    Exit;  // Излизаме, ако вече сме в началото на списъка
+    Exit;
 
-  // Изчисляваме индекса на предишното изображение
   Dec(FCurrentImageIndex);
 
-  // Зареждаме предишното изображение
   Image1.Picture.LoadFromFile(FImageList[FCurrentImageIndex]);
 
-  // Актуализираме етикета за броя на изображенията
   Lbl_Image_Count.Caption := Format('%d от %d', [FCurrentImageIndex + 1, FImageList.Count]);
+end;
+
+procedure TProperty_Create_Form.Btn_CanselClick(Sender: TObject);
+begin
+  ModalResult := mrCancel;
 end;
 
 procedure TProperty_Create_Form.Btn_CreateClick(Sender: TObject);
@@ -162,15 +165,12 @@ end;
 procedure TProperty_Create_Form.Btn_NextClick(Sender: TObject);
 begin
   if FCurrentImageIndex >= FImageList.Count - 1 then
-    Exit;  // Излизаме, ако вече сме в края на списъка
+    Exit;
 
-  // Изчисляваме индекса на следващото изображение
   Inc(FCurrentImageIndex);
 
-  // Зареждаме следващото изображение
   Image1.Picture.LoadFromFile(FImageList[FCurrentImageIndex]);
 
-  // Актуализираме етикета за броя на изображенията
   Lbl_Image_Count.Caption := Format('%d от %d', [FCurrentImageIndex + 1, FImageList.Count]);
 end;
 
@@ -195,9 +195,8 @@ var
   LPropertyType, LAddress, LDescription: string;
   PriceValue, AreaValue: Double;
 begin
-  Result := True; // Предполагаме, че всички полета са валидни, докато не се докаже противното
+  Result := True;
 
-  // Проверка на Property Type
   LPropertyType := Trim(Edt_Propery_Type.Text);
   if LPropertyType = EmptyStr then
   begin
@@ -207,7 +206,6 @@ begin
     Exit;
   end;
 
-  // Проверка на Address
   LAddress := Trim(Edt_Address.Text);
   if LAddress = EmptyStr then
   begin
@@ -217,7 +215,6 @@ begin
     Exit;
   end;
 
-  // Проверка за валидност на Price
   if not TryStrToFloat(Edt_Price.Text, PriceValue) or (PriceValue <= 0) then
   begin
     ShowMessage('Please enter a valid Price greater than zero.');
@@ -226,7 +223,6 @@ begin
     Exit;
   end;
 
-  // Проверка за валидност на Area
   if not TryStrToFloat(Edt_Area.Text, AreaValue) or (AreaValue <= 0) then
   begin
     ShowMessage('Please enter a valid Area greater than zero.');
@@ -235,7 +231,6 @@ begin
     Exit;
   end;
 
-  // Проверка на Description
   LDescription := Trim(Memo_Description.Text);
   if LDescription = EmptyStr then
   begin
@@ -256,15 +251,13 @@ end;
 procedure TProperty_Create_Form.Edt_PriceKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  // Проверка дали въведеното е число, десетична запетая или клавиша Backspace
   if not CharInSet(Key, ['0'..'9', ',', #8]) then
   begin
-    Key := #0; // Отхвърли клавиша
+    Key := #0;
   end
-  // Проверка дали десетичната запетая вече съществува или се опитва да бъде първият символ
   else if (Key = ',') and ((Pos(',', TEdit(Sender).Text) > 0) or (TEdit(Sender).SelStart = 0)) then
   begin
-    Key := #0; // Отхвърли клавиша, ако вече има запетая или е първи символ
+    Key := #0;
   end;
 end;
 
@@ -283,7 +276,7 @@ procedure TProperty_Create_Form.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    ModalResult := mrCancel;  // Затваря формата със стойност mrCancel
+    ModalResult := mrCancel;
   end;
 end;
 procedure TProperty_Create_Form.FormShow(Sender: TObject);

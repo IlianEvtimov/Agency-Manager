@@ -51,7 +51,7 @@ var
 begin
   if Key = VK_ESCAPE then
   begin
-    UserResponse := MessageDlg('Наистина ли искате да изтриете избрания запис?', mtConfirmation, [mbYes, mbNo], 0);
+    UserResponse := MessageDlg('Излизане от програмта?', mtConfirmation, [mbYes, mbNo], 0);
     if UserResponse = mrNo then
       Exit;
 

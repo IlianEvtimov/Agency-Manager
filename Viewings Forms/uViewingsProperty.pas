@@ -13,6 +13,9 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Btn_NextClick(Sender: TObject);
     procedure Btn_BackClick(Sender: TObject);
+    procedure Btn_Add_ImageClick(Sender: TObject);
+    procedure Btn_DeleteClick(Sender: TObject);
+    procedure Btn_AgentClick(Sender: TObject);
   private
     { Private declarations }
     FProperty : TProperty;
@@ -44,9 +47,24 @@ begin
   Viewings_Property_Form.Release;
 end;
 
+procedure TViewings_Property_Form.Btn_Add_ImageClick(Sender: TObject);
+begin
+  //
+end;
+
+procedure TViewings_Property_Form.Btn_AgentClick(Sender: TObject);
+begin
+  //
+end;
+
 procedure TViewings_Property_Form.Btn_BackClick(Sender: TObject);
 begin
   FPropertyImageLoader.Previous;
+end;
+
+procedure TViewings_Property_Form.Btn_DeleteClick(Sender: TObject);
+begin
+  //
 end;
 
 procedure TViewings_Property_Form.Btn_NextClick(Sender: TObject);
@@ -66,7 +84,6 @@ begin
   Btn_Delete.Visible       := False;
   Btn_Agent.Visible        := False;
   Btn_Create.Visible       := False;
-
 end;
 
 procedure TViewings_Property_Form.DisplayData;
@@ -87,7 +104,7 @@ begin
   if Assigned(FPropertyImageLoader) then
     FreeAndNil(FPropertyImageLoader);
 
-//  if Assigned(FProperty) then  // Освобождава се в UpropertyList формата
+//  if Assigned(FProperty) then
 //    FreeAndNil(FProperty);
 
   if Assigned(FAgent) then

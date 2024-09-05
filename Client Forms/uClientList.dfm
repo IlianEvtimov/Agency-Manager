@@ -1,10 +1,11 @@
 inherited Client_List_Form: TClient_List_Form
   Caption = 'Client_List_Form'
+  ClientHeight = 444
   ClientWidth = 601
-  ExplicitWidth = 617
   TextHeight = 15
   inherited ListView1: TListView
     Width = 601
+    Height = 444
     Columns = <
       item
         Caption = 'ID'
@@ -27,6 +28,5 @@ inherited Client_List_Form: TClient_List_Form
       item
         Caption = 'PropertyId'
       end>
-    ExplicitWidth = 601
   end
 end

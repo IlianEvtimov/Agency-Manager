@@ -113,63 +113,66 @@ object Property_Create_Form: TProperty_Create_Form
   object Edt_Propery_Type: TEdit
     Left = 16
     Top = 30
-    Width = 342
+    Width = 340
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    ExplicitWidth = 344
+    ExplicitWidth = 338
   end
   object Edt_Address: TEdit
     Left = 16
     Top = 78
-    Width = 342
+    Width = 340
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    ExplicitWidth = 344
+    ExplicitWidth = 338
   end
   object Edt_Price: TEdit
     Left = 16
     Top = 126
-    Width = 342
+    Width = 340
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 2
     Text = '0'
     OnKeyPress = Edt_PriceKeyPress
-    ExplicitWidth = 344
+    ExplicitWidth = 338
   end
   object Edt_Area: TEdit
     Left = 16
     Top = 174
-    Width = 342
+    Width = 340
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 3
     OnKeyPress = Edt_PriceKeyPress
-    ExplicitWidth = 344
+    ExplicitWidth = 338
   end
   object Memo_Description: TMemo
     Left = 16
     Top = 273
-    Width = 640
+    Width = 638
     Height = 139
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
-    ExplicitWidth = 642
+    ExplicitWidth = 636
+    ExplicitHeight = 136
   end
   object Btn_Cansel: TButton
-    Left = 581
+    Left = 579
     Top = 419
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = #1053#1072#1079#1072#1076
     TabOrder = 7
-    ExplicitLeft = 583
+    OnClick = Btn_CanselClick
+    ExplicitLeft = 577
+    ExplicitTop = 416
   end
   object Btn_Create: TButton
-    Left = 493
+    Left = 491
     Top = 419
     Width = 75
     Height = 25
@@ -177,20 +180,21 @@ object Property_Create_Form: TProperty_Create_Form
     Caption = #1044#1086#1073#1072#1074#1080
     TabOrder = 6
     OnClick = Btn_CreateClick
-    ExplicitLeft = 495
+    ExplicitLeft = 489
+    ExplicitTop = 416
   end
   object Edt_Agent: TEdit
     Left = 16
     Top = 222
-    Width = 342
+    Width = 340
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
     TabOrder = 8
-    ExplicitWidth = 344
+    ExplicitWidth = 338
   end
   object Btn_Agent: TButton
-    Left = 364
+    Left = 362
     Top = 221
     Width = 25
     Height = 25
@@ -198,7 +202,7 @@ object Property_Create_Form: TProperty_Create_Form
     Caption = '...'
     TabOrder = 4
     OnClick = Btn_AgentClick
-    ExplicitLeft = 366
+    ExplicitLeft = 360
   end
   object Btn_All_Properties: TButton
     Left = 16
@@ -209,6 +213,7 @@ object Property_Create_Form: TProperty_Create_Form
     Caption = #1042#1080#1078' '#1074#1089#1080#1095#1082#1080' '#1080#1084#1086#1090#1080
     TabOrder = 9
     OnClick = Btn_All_PropertiesClick
+    ExplicitTop = 416
   end
   object Btn_Back: TButton
     Left = 505

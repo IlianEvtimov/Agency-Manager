@@ -87,23 +87,23 @@ object Create_Clietn_Form: TCreate_Clietn_Form
   object Edt_PhoneNumber: TEdit
     Left = 16
     Top = 78
-    Width = 291
+    Width = 289
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    ExplicitWidth = 289
+    ExplicitWidth = 287
   end
   object Edt_ClientName: TEdit
     Left = 16
     Top = 29
-    Width = 291
+    Width = 289
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    ExplicitWidth = 289
+    ExplicitWidth = 287
   end
   object Btn_Add: TButton
-    Left = 151
+    Left = 149
     Top = 264
     Width = 75
     Height = 25
@@ -111,18 +111,19 @@ object Create_Clietn_Form: TCreate_Clietn_Form
     Caption = #1044#1086#1073#1072#1074#1080
     TabOrder = 2
     OnClick = Btn_AddClick
-    ExplicitLeft = 149
+    ExplicitLeft = 147
     ExplicitTop = 261
   end
   object Btn_Cancel: TButton
-    Left = 232
+    Left = 230
     Top = 264
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = #1053#1072#1079#1072#1076
     TabOrder = 3
-    ExplicitLeft = 230
+    OnClick = Btn_CancelClick
+    ExplicitLeft = 228
     ExplicitTop = 261
   end
   object Button3: TButton
@@ -150,26 +151,26 @@ object Create_Clietn_Form: TCreate_Clietn_Form
   object Edt_Budget: TEdit
     Left = 16
     Top = 181
-    Width = 291
+    Width = 289
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
     OnKeyPress = Edt_BudgetKeyPress
-    ExplicitWidth = 289
+    ExplicitWidth = 287
   end
   object Edt_PropertyID: TEdit
     Left = 16
     Top = 230
-    Width = 266
+    Width = 264
     Height = 23
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
     TabOrder = 7
     Visible = False
-    ExplicitWidth = 264
+    ExplicitWidth = 262
   end
   object Btn_Agent: TButton
-    Left = 286
+    Left = 284
     Top = 230
     Width = 25
     Height = 25
@@ -178,6 +179,6 @@ object Create_Clietn_Form: TCreate_Clietn_Form
     TabOrder = 8
     Visible = False
     OnClick = Btn_AgentClick
-    ExplicitLeft = 284
+    ExplicitLeft = 282
   end
 end

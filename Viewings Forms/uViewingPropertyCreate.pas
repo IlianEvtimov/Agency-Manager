@@ -101,7 +101,7 @@ procedure TViewing_Crete_Form.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = VK_ESCAPE then
   begin
-    ModalResult := mrCancel;  // Затваря формата със стойност mrCancel
+    ModalResult := mrCancel;
   end;
 end;
 
@@ -122,14 +122,12 @@ begin
     Exit;
   end;
 
-  // Ако няма избрани елементи
   if ListView1.SelCount = 0 then
   begin
     ShowMessage('Няма избрани елементи за актуализиране.');
-    Exit;  // Добавяне на Exit тук
+    Exit;
   end;
 
-  // Вземи избрания елемент
   ListItem := ListView1.Selected;
   LProperty := TProperty(ListItem.Data);
 

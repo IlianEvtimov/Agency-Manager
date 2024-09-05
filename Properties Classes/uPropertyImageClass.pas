@@ -40,45 +40,28 @@ implementation
 constructor TPropertyImageLoader.Create(APropertyID: Integer; AImage: TImage; ALabel: TLabel);
 begin
   inherited Create;
-
-  // Задаване на PropertyID
   FPropertyID := APropertyID;
-
-  // Свързване със съществуващите компоненти
   FImage := AImage;
   FLabel := ALabel;
-
-  // Инициализация на стойности по подразбиране
-  FLabel.Caption := 'Property ID: ' + IntToStr(FPropertyID);
+  FDQuery := TFDQuery.Create(nil);
 end;
 
 procedure TPropertyImageLoader.LoadImage;
 begin
   GetImagesFromDatabase;
-  if Assigned(FDQuery) then begin
-    LoadImagesFDQuery;
-    FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
-  end 
-  else 
-  begin
-    FLabel.Caption := '0 от 0';
-  end;
+  LoadImagesFDQuery;
+  FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
 end;
 
 procedure TPropertyImageLoader.SetAddImage(const AImagePath: string);
 begin
   if InsertImage(AImagePath) then
   begin
-//    GetImagesFromDatabase;
-    if Assigned(FDQuery) then
-    begin
-      FDQuery.Close;
-      FDQuery.Open;
-      
-      FDQuery.Last;
-      LoadImagesFDQuery;
-      FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
-    end;
+    FDQuery.Close;
+    FDQuery.Open;
+    FDQuery.Last;
+
+    LoadImagesFDQuery;
   end;
 end;
 
@@ -89,48 +72,36 @@ begin
   Result := False;
   if Assigned(FDQuery) then
   begin
-    // Запазване на текущия индекс
     LCurrentIndex := FDQuery.RecNo;
 
-    // Извличане на текущото IMAGEID и изтриване
     LCurrentImageID := FDQuery.FieldByName('IMAGEID').AsInteger;
     DeleteImageByID(LCurrentImageID);
 
-    // Презареждане на данните след изтриване
-//    GetImagesFromDatabase;
     Result := True;
-    if Assigned(FDQuery) then begin
-      FDQuery.Close;
-      FDQuery.Open;
-      
-      // Настройка на курсора към предишния запис (или първия, ако текущият е изтрит)
-      if FDQuery.RecordCount > 0 then
-      begin
-        if LCurrentIndex > 1 then
-          FDQuery.RecNo := LCurrentIndex - 1  // Преминаване към предишния запис
-        else
-          FDQuery.First;  // Ако текущият запис е първи, преминете към първия след презареждането
 
-        // Визуализиране на текущото изображение
-        LoadImagesFDQuery;
-        FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
-      end;
+    FDQuery.Close;
+    FDQuery.Open;
+
+    if FDQuery.RecordCount > 0 then
+    begin
+      if LCurrentIndex > 1 then
+        FDQuery.RecNo := LCurrentIndex - 1
+      else
+        FDQuery.First;
+
+      LoadImagesFDQuery;
     end
     else
     begin
-      // Ако няма останали записи, изчистване на изображението
+      FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
       FImage.Picture.Assign(nil);
-      FLabel.Caption := '0 от 0';
     end;
   end;
 end;
 
 procedure TPropertyImageLoader.GetImagesFromDatabase;
 begin
-  if Assigned(FDQuery) then
-    FreeAndNil(FDQuery);
 
-  FDQuery := TFDQuery.Create(nil); // Инициализация на Result
   try
     with DM do
     begin
@@ -138,20 +109,16 @@ begin
         FDConnection1.Connected := True;
 
       FDQuery.Connection := FDConnection1;
-      // Подгответе SQL заявката за извличане на изображението
+
       FDQuery.SQL.Text := 'SELECT IMAGEID, IMAGE FROM PROPERTY_IMAGES WHERE PROPERTYID = :PropertyID';
       FDQuery.ParamByName('PropertyID').AsInteger := FPropertyID;
 
-      // Изпълнете заявката
       FDQuery.Open;
-
-      if FDQuery.IsEmpty then
-        FreeAndNil(FDQuery);
     end;
   except
     on E: Exception do
     begin
-      FDQuery := nil; // В случай на грешка, върнете nil
+      raise Exception.Create('Грешка при зареждане на изображенията за имота: ' + E.Message);
     end;
   end;
 end;
@@ -159,34 +126,27 @@ end;
 function TPropertyImageLoader.GetNext: Boolean;
 begin
   Result := False;
-  if Assigned(FDQuery) then
+
+  FDQuery.Next;
+  if not FDQuery.Eof then
   begin
-    FDQuery.Next; // Преминава към следващия запис, ако не е в края
-    if not FDQuery.Eof then
-    begin
-      LoadImagesFDQuery;
-      FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
-      Result := True;
-    end;
+    LoadImagesFDQuery;
+    Result := True;
   end;
+
 end;
 
 function TPropertyImageLoader.GetPrevious: Boolean;
 begin
   Result := False;
-  if Assigned(FDQuery) then
+
+  FDQuery.Prior;
+  if not FDQuery.Bof then
   begin
-    // Преминава към предишния запис
-    FDQuery.Prior;
-    // Проверка дали сме в началото на набора от данни (BOF)
-    if not FDQuery.Bof then
-    begin
-      // Зареждане на изображението от текущия запис
-      LoadImagesFDQuery;
-      FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
-      Result := True;
-    end;
+    LoadImagesFDQuery;
+    Result := True;
   end;
+
 end;
 
 procedure TPropertyImageLoader.LoadImagesFDQuery;
@@ -196,16 +156,14 @@ var
   Graphic: TGraphic;
 begin
 
-  if Assigned(FDQuery) then
+  if not FDQuery.IsEmpty then
   begin
     BlobStream := FDQuery.CreateBlobStream(FDQuery.FieldByName('IMAGE'), bmRead);
     try
-      BlobStream.Position := 0;  // Уверете се, че началната позиция на потока е нула
+      BlobStream.Position := 0;
 
-      // Определете формата на изображението
       ImageFormat := DetectImageFormat(BlobStream);
 
-      // Създайте графичен обект според формата на изображението
       if ImageFormat = 'PNG' then
         Graphic := TPngImage.Create
       else if ImageFormat = 'JPEG' then
@@ -216,8 +174,7 @@ begin
         raise Exception.Create('Unsupported image format');
 
       try
-        // Зареждане на графиката от потока
-        BlobStream.Position := 0;  // Отново се уверете, че позицията е нула преди четене
+        BlobStream.Position := 0;
         Graphic.LoadFromStream(BlobStream);
         FImage.Picture.Assign(Graphic);
       finally
@@ -225,9 +182,11 @@ begin
       end;
 
     finally
+
       BlobStream.Free;
     end;
   end;
+  FLabel.Caption := Format('%d от %d', [FDQuery.RecNo, FDQuery.RecordCount]);
 end;
 
 destructor TPropertyImageLoader.Destroy;
@@ -247,16 +206,12 @@ begin
   Stream.Position := 0;
   Stream.Read(Signature, SizeOf(Signature));
 
-  // Проверка за PNG формат
   if (Signature[0] = $89) and (Signature[1] = $50) and (Signature[2] = $4E) and (Signature[3] = $47) then
     Result := 'PNG'
-  // Проверка за JPEG формат
   else if (Signature[0] = $FF) and (Signature[1] = $D8) and (Signature[2] = $FF) then
     Result := 'JPEG'
-  // Проверка за BMP формат
   else if (Signature[0] = $42) and (Signature[1] = $4D) then
     Result := 'BMP'
-  // Можете да добавите и други формати, ако е необходимо
   else
     Result := 'UNKNOWN';
 end;
@@ -279,7 +234,7 @@ begin
   except
     on E: Exception do
     begin
-      DM.FDConnection1.Rollback;  // Връщане на транзакцията при грешка
+      DM.FDConnection1.Rollback;
     end;
   end;
 end;
@@ -296,17 +251,14 @@ begin
       if not FDConnection1.Connected then
        FDConnection1.Connected := True;
 
-       LDQuery := TFDQuery.Create(nil); // Инициализация на Result
-      // Подгответе SQL заявката за вмъкване
+       LDQuery := TFDQuery.Create(nil);
       try
         LDQuery.Connection := FDConnection1;
         LDQuery.SQL.Text := 'INSERT INTO PROPERTY_IMAGES (PROPERTYID, IMAGE) ' +
                         'VALUES (:PropertyID, :Image)';
 
-        // Задайте параметрите на заявката
         LDQuery.ParamByName('PropertyID').AsInteger := FPropertyID;
 
-        // Заредете изображението в потока
         FileStream := TFileStream.Create(AImagePath, fmOpenRead or fmShareDenyWrite);
         try
           LDQuery.ParamByName('Image').LoadFromStream(FileStream, ftBlob);
@@ -314,10 +266,8 @@ begin
           FileStream.Free;
         end;
 
-        // Изпълнете SQL заявката
         LDQuery.ExecSQL;
 
-        // Потвърдете транзакцията
         DM.FDConnection1.Commit;
       finally
         FreeAndNil(LDQuery);
@@ -328,7 +278,7 @@ begin
   except
     on E: Exception do
     begin
-      DM.FDConnection1.Rollback;  // Връщане на транзакцията при грешка
+      DM.FDConnection1.Rollback;
       Result := False;
     end;
   end;

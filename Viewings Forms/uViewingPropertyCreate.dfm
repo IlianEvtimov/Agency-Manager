@@ -2,8 +2,8 @@ object Viewing_Crete_Form: TViewing_Crete_Form
   Left = 0
   Top = 0
   Caption = 'Viewing_Crete_Form'
-  ClientHeight = 485
-  ClientWidth = 551
+  ClientHeight = 482
+  ClientWidth = 549
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +18,8 @@ object Viewing_Crete_Form: TViewing_Crete_Form
   object ListView1: TListView
     Left = 0
     Top = 0
-    Width = 551
-    Height = 312
+    Width = 549
+    Height = 309
     Align = alClient
     Columns = <
       item
@@ -54,17 +54,20 @@ object Viewing_Crete_Form: TViewing_Crete_Form
     TabOrder = 0
     ViewStyle = vsReport
     OnDblClick = ListView1DblClick
+    ExplicitWidth = 551
     ExplicitHeight = 321
   end
   object Panel1: TPanel
     Left = 0
-    Top = 312
-    Width = 551
+    Top = 309
+    Width = 549
     Height = 173
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 312
+    ExplicitWidth = 551
     DesignSize = (
-      551
+      549
       173)
     object Lbl_Owner: TLabel
       Left = 280
@@ -136,20 +139,22 @@ object Viewing_Crete_Form: TViewing_Crete_Form
     object Edt_PropertyID: TEdit
       Left = 280
       Top = 78
-      Width = 249
+      Width = 245
       Height = 23
       Anchors = [akLeft, akTop, akRight]
       Enabled = False
       TabOrder = 0
+      ExplicitWidth = 249
     end
     object Edt_Budget: TEdit
       Left = 280
       Top = 29
-      Width = 154
+      Width = 150
       Height = 23
       Anchors = [akLeft, akTop, akRight]
       Enabled = False
       TabOrder = 1
+      ExplicitWidth = 154
     end
     object Cmb_ClientType: TComboBox
       Left = 16
@@ -167,20 +172,22 @@ object Viewing_Crete_Form: TViewing_Crete_Form
     object Edt_PhoneNumber: TEdit
       Left = 16
       Top = 78
-      Width = 241
+      Width = 237
       Height = 23
       Anchors = [akLeft, akTop, akRight]
       Enabled = False
       TabOrder = 3
+      ExplicitWidth = 241
     end
     object Edt_ClientName: TEdit
       Left = 16
       Top = 29
-      Width = 241
+      Width = 237
       Height = 23
       Anchors = [akLeft, akTop, akRight]
       Enabled = False
       TabOrder = 4
+      ExplicitWidth = 241
     end
     object Btn_Client_Choose: TButton
       Left = 440

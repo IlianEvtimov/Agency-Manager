@@ -9,6 +9,8 @@ function InsertAgent(const AAgent: TAgent): Boolean;
 function UpdateAgent(const AAgent: TAgent): Boolean;
 function DeleteAgent(const AAgentID: Longint): Boolean;
 function DeleteClientByAgentID(const AAgentID: LongInt): Boolean;
+function UpdateClientAgentIDToZero(const AAgentID: LongInt): Boolean;
+function UnassignPropertiesFromAgent(const AAgentID: LongInt): Boolean;
 function DeleteVIEWINGSByAgentID(const AAgentID: LongInt): Boolean;
 function DeletePROPERTIESByAgentID(const AAgentID: LongInt): Boolean;
 function GetAgentByID(const AID: LongInt): TAgent;
@@ -70,9 +72,11 @@ begin
         FDConnection1.Connected := True;
       if not DeleteVIEWINGSByAgentID(AAgentID) then
         ShowMessage('Error deleting from VIEWINGS table');
-      if not DeleteClientByAgentID(AAgentID) then
-        ShowMessage('Error deleting from CLIENT table');
-      if not DeletePROPERTIESByAgentID(AAgentID) then
+
+//      if not UpdateClientAgentIDToZero(AAgentID) then
+//        ShowMessage('Error deleting from CLIENT table');
+
+      if not UnassignPropertiesFromAgent(AAgentID) then
         ShowMessage('Error deleting from PROPERTIES table');
       FDQuery_Work.SQL.Clear;
       FDQuery_Work.SQL.Text := 'DELETE FROM AGENTS WHERE AGENTID = :AgentID';
@@ -92,6 +96,7 @@ begin
     end;
   end;
 end;
+
 function DeleteClientByAgentID(const AAgentID: LongInt): Boolean;
 begin
   try
@@ -120,6 +125,7 @@ begin
     end;
   end;
 end;
+
 function DeleteVIEWINGSByAgentID(const AAgentID: LongInt): Boolean;
 begin
   try
@@ -142,6 +148,7 @@ begin
     end;
   end;
 end;
+
 function DeletePROPERTIESByAgentID(const AAgentID: LongInt): Boolean;
 begin
   try
@@ -164,6 +171,7 @@ begin
     end;
   end;
 end;
+
 function GetAgentByID(const AID: LongInt): TAgent;
 begin
   // Initialize result with nil
@@ -196,6 +204,7 @@ begin
     end;
   end;
 end;
+
 procedure LoadAllAgents(AListView: TListView);
 var
   ListItem: TListItem;
@@ -240,5 +249,63 @@ begin
   // Close the query
   DM.FDQuery_Agency.Close;
 end;
+
+function UnassignPropertiesFromAgent(const AAgentID: LongInt): Boolean;
+begin
+  try
+    with DM do
+    begin
+      // Update AGENTID to NULL in Properties where AGENTID equals the given AAgentID
+      FDQuery_Work.SQL.Clear;
+      FDQuery_Work.SQL.Text :=
+        'UPDATE Properties ' +
+        'SET AGENTID = NULL ' +
+        'WHERE AGENTID = :AgentID';
+      FDQuery_Work.ParamByName('AgentID').AsInteger := AAgentID;
+      FDQuery_Work.ExecSQL;
+    end;
+    Result := True;
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      // Logging the error or showing an error message could be added
+      ShowMessage('Error updating AGENTID to NULL in Properties: ' + E.Message);
+      DM.FDConnection1.Rollback; // In case of error, roll back all changes
+    end;
+  end;
+end;
+
+
+function UpdateClientAgentIDToZero(const AAgentID: LongInt): Boolean;
+begin
+  try
+    with DM do
+    begin
+      // Update AgentID to 0 in Clients where PropertyID is associated with the given AgentID
+      FDQuery_Work.SQL.Clear;
+      FDQuery_Work.SQL.Text :=
+        'UPDATE Clients ' +
+        'SET AGENTID = NULL ' +
+        'WHERE PROPERTYID IN ( ' +
+        '  SELECT PROPERTYID ' +
+        '  FROM Properties ' +
+        '  WHERE AGENTID = :AgentID ' +
+        ')';
+      FDQuery_Work.ParamByName('AgentID').AsInteger := AAgentID;
+      FDQuery_Work.ExecSQL;
+    end;
+    Result := True;
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      // Logging the error or showing an error message could be added
+      ShowMessage('Error updating AGENTID to 0: ' + E.Message);
+      DM.FDConnection1.Rollback; // In case of error, roll back all changes
+    end;
+  end;
+end;
+
 end.
 

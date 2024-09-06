@@ -20,7 +20,7 @@ interface
     procedure LoadImagesFDQuery(const AFDQuery : TFDQuery; AImage: TImage);
     function DetectImageFormat(Stream: TStream): string;
     procedure DeleteImageByID(AImageID: Integer);
-
+    function DeleteImagesByPropertyID(const APropertyID: LongInt): Boolean;
 
 implementation
 
@@ -210,6 +210,8 @@ begin
       if not SetClientPropertyIDToNil(AProperty.PropertyID) then
         ShowMessage('Грешка при задаване на Client таблицата PropertyID to nil!');
 
+      if not DeleteImagesByPropertyID(AProperty.PropertyID) then
+        ShowMessage('Грешка изтриване от PROPERTY_IMAGES таблицата!');
 
       FDQuery_Work.SQL.Clear;
       FDQuery_Work.SQL.Text := 'DELETE FROM PROPERTIES WHERE PROPERTYID = :PropertyID';
@@ -549,6 +551,29 @@ begin
     begin
       ShowMessage('Error deleting image record: ' + E.Message);
       DM.FDConnection1.Rollback;
+    end;
+  end;
+end;
+
+function DeleteImagesByPropertyID(const APropertyID: LongInt): Boolean;
+begin
+  try
+    with DM do
+    begin
+      FDQuery_Work.SQL.Clear;
+      FDQuery_Work.SQL.Text :=
+        'DELETE FROM PROPERTY_IMAGES ' +
+        'WHERE PROPERTYID = :PropertyID';
+      FDQuery_Work.ParamByName('PropertyID').AsInteger := APropertyID;
+      FDQuery_Work.ExecSQL;
+    end;
+    Result := True;
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Error deleting images: ' + E.Message);
+      Result := False;
+      DM.FDConnection1.Rollback; // Roll back in case of error
     end;
   end;
 end;

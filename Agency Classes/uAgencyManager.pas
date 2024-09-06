@@ -8,8 +8,35 @@ uses
   function DeleteAgency(const AAgency: TAgency): Boolean;
   function UpdateAgency(const AAgency: TAgency): Boolean;
   function GetAgencyByID(const AID: LongInt): TAgency;
+  function UpdateAgencyIDToZero(OldAgencyID: Integer): Boolean;
   procedure LoadAllAgencies(AListView: TListView);
+
 implementation
+
+function UpdateAgencyIDToZero(OldAgencyID: Integer): Boolean;
+begin
+  try
+  with DM do
+    begin
+      if not FDConnection1.Connected then
+        FDConnection1.Connected := True;
+
+      FDQuery_Work.SQL.Clear;
+      FDQuery_Work.SQL.Add('UPDATE AGENTS SET AGENCYID = 0 WHERE AGENCYID = :OldAgencyID');
+      FDQuery_Work.ParamByName('OldAgencyID').AsInteger := OldAgencyID;
+      FDQuery_Work.ExecSQL;
+      FDConnection1.Commit;
+    end;
+    Result := True;
+  except
+    on E: Exception do
+    begin
+      // Show error message if insertion fails
+      Result := False;
+    end;
+  end;
+end;
+
 function InsertAgency(const AAgency: TAgency): Boolean;
 begin
   try
@@ -43,6 +70,10 @@ begin
       // Ensure the connection is active
       if not FDConnection1.Connected then
         FDConnection1.Connected := True;
+
+      // Set AGENCYID to 0 for all agents where AGENCYID equals the given AGENCYID
+      UpdateAgencyIDToZero(AAgency.ID);
+
       // Prepare SQL query for deletion with parameters
       FDQuery_Work.SQL.Clear;
       FDQuery_Work.SQL.Add('DELETE FROM Agency WHERE AgencyID = :AgencyID');

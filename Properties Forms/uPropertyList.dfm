@@ -2,8 +2,8 @@ object Property_List_Form: TProperty_List_Form
   Left = 0
   Top = 0
   Caption = 'Property_List_Form'
-  ClientHeight = 456
-  ClientWidth = 609
+  ClientHeight = 453
+  ClientWidth = 607
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object Property_List_Form: TProperty_List_Form
   object ListView1: TListView
     Left = 0
     Top = 0
-    Width = 609
-    Height = 456
+    Width = 607
+    Height = 453
     Align = alClient
     Columns = <
       item
@@ -56,8 +56,6 @@ object Property_List_Form: TProperty_List_Form
     TabOrder = 0
     ViewStyle = vsReport
     OnDblClick = ListView1DblClick
-    ExplicitWidth = 607
-    ExplicitHeight = 453
   end
   object PopupMenu1: TPopupMenu
     Left = 468

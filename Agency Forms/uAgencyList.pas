@@ -83,8 +83,7 @@ begin
       if Assigned(LAgency) then
       begin
         DeleteAgency(LAgency); // Delete the record from the database (if needed)
-        LAgency.Free;             // Free the memory
-        ListItem.Data := nil;     // Nullify the pointer
+        FreeAndNil(LAgency);
       end;
       // Delete the selected item from ListView
       ListItem.Delete;

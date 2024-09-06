@@ -14,8 +14,6 @@ type
     constructor Create(const AName, AAddress, APhoneNumber: string); overload;
     constructor Create(const AID: LongInt; const AName, AAddress, APhoneNumber: string); overload;
 
-    function ToString: string; override;
-
     property ID: LongInt read FID write FID;
     property Name: string read FName write FName;
     property Address: string read FAddress write FAddress;
@@ -40,11 +38,5 @@ begin
   FID := AID;
   Create(AName, AAddress, APhoneNumber);
 end;
-
-function TAgency.ToString: string;
-begin
-  Result := Format('Agency Name: %s, Address: %s, Phone: %s', [FName, FAddress, FPhoneNumber]);
-end;
-
 
 end.

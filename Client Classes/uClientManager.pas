@@ -107,6 +107,7 @@ begin
                                'BUDGET = :Budget, ' +
                                'PROPERTYID = :PropertyID ' +
                                'WHERE CLIENTID = :ClientID';
+
       // Set parameter values from the LClient object
       FDQuery_Work.ParamByName('Name').AsString        := AClient.Name;          // Client's name
       FDQuery_Work.ParamByName('PhoneNumber').AsString := AClient.PhoneNumber;   // Phone number
@@ -140,6 +141,7 @@ begin
         FDConnection1.Connected := True;
       if not DeleteViewingByPropertyID(AClient.PropertyID) then
         ShowMessage('Error deleting VIEWINGS!');
+
       // Step 1: Set PROPERTYID to NULL
       DM.FDQuery_Work.SQL.Clear;
       DM.FDQuery_Work.SQL.Add('UPDATE CLIENTS SET PROPERTYID = NULL WHERE CLIENTID = :ClientID');
